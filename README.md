@@ -1,1 +1,2 @@
 # watchAndTrans
+检测目标目录并把围栏数据推送至ElasticSearch
