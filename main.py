@@ -43,8 +43,8 @@ class MyEventHandler(FileSystemEventHandler):
 def hold(path):
     logger.info(f"检测到围栏数据{path.split('/')[-1]}")
     df = trans(path.split('/')[-1])
-    dataFrame2db(df)
-    shutil.move(path,folder_path+"/../backups/")
+    if dataFrame2db(df):
+        shutil.move(path,folder_path+"/../backups/")
 def drop(path):
     logger.info(f"检测到垃圾文件{path.split('/')[-1]}")
     # shutil.move(path,folder_path+"/../junk/")
@@ -59,7 +59,7 @@ def swape():
         path = os.path.join(folder_path,i)
         if i.endswith(".txt") and prefix in i:
             dfs.append(trans(i))
-            shutil.move(path,folder_path+"/../backups/")
+            # shutil.move(path,folder_path+"/../backups/")
         else:
             # shutil.move(path,folder_path+"/../junk/")
             os.unlink(path)
@@ -95,7 +95,8 @@ if __name__=="__main__":
     data = swape()
     # print(data)
     if len(data)>0: # 若目录里有东西就转入数据库
-        dataFrame2db(data)
+        if dataFrame2db(data):
+            os.system(f"mv {folder_path}/{prefix}* {folder_path}/../backups/")
     logger.info("清扫完成")
     # 创建一个 Observer 实例
     observer = Observer()
