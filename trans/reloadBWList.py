@@ -7,4 +7,5 @@ router = APIRouter()
 @router.get("")
 async def reloadBWList(request: Request):
     manger.pullBlackList()
-    # print(manger.blackList)
+    return manger.blackList.__repr__()
+    

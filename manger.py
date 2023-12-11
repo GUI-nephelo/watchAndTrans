@@ -62,6 +62,7 @@ class AlertManger:
                 conn.search(index="blacklist",size=10000)["hits"]["hits"]
             )
         )
+        print("pullBlackList success",self.blackList)
 
     def checkDataframe(self,df: pd.DataFrame):
         def check(phoneNum):
@@ -70,3 +71,4 @@ class AlertManger:
         df["phoneNum"].apply(check)
 
 manger = AlertManger()
+manger.pullBlackList()
