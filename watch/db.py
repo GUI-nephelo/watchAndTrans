@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def dataFrame2db(df : pd.DataFrame):
     actions = [{"_index":"elec-fence","_id":hs,"_source":data} for hs,data in df.T.to_dict().items()]
-    actions = list(filter(lambda x:x["_source"]["phoneNum"] ,actions))
+    actions = list(filter(lambda x:x["_source"]["phoneNum"] and int(x["_source"]["IMEI"])!=0,actions))
     try:
         ii,o = bulk(conn,actions)
         logger.info(f"成功推送{ii}条数据")
